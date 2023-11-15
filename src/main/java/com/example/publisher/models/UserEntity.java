@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity(name = "users")
+@Data
 public class UserEntity {
 
     @Id
