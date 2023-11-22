@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PublisherApplication {
 
     private JwtCore jwtCore;
-
-    @Autowired
     public void setJwtCore(JwtCore jwtCore){
         this.jwtCore=jwtCore;
     }
