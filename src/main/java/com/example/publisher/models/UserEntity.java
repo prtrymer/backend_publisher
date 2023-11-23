@@ -3,6 +3,7 @@ package com.example.publisher.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,8 @@ public class UserEntity {
     private String phone;
     private Date birthdate;
     private String password;
+    @Column(name = "created_at")
+    private Instant createdAt = Instant.now();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -40,6 +43,10 @@ public class UserEntity {
         return roles.stream()
                 .map(Role::getName)
                 .anyMatch(role -> role.equals("ROLE_ADMIN"));
+    }
+    public void addRole(Role role) {
+        this.roles.add(role);
+        role.getUsers().add(this);
     }
 }
 

@@ -1,13 +1,16 @@
 package com.example.publisher.services.impl;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.publisher.exception.InvalidPasswordException;
+import com.example.publisher.exception.RoleNotFoundException;
+import com.example.publisher.exception.UserAlreadyExistsException;
+import com.example.publisher.exception.UserNotFoundException;
 import com.example.publisher.models.UserEntity;
 import com.example.publisher.repository.RoleRepository;
 import com.example.publisher.repository.UserRepository;
 import com.example.publisher.security.JwtTokenProvider;
 import com.example.publisher.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -25,8 +28,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-    @Value("${aws.bucket}")
-    private String bucket;
 
     @Override
     @Transactional
