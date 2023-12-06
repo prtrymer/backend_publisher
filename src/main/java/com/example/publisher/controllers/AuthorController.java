@@ -1,9 +1,11 @@
 package com.example.publisher.controllers;
 
+import com.example.publisher.dto.ExceptionResponse;
+import com.example.publisher.dto.author.AuthorCreationDto;
 import com.example.publisher.dto.author.AuthorDto;
-import com.example.publisher.dto.book.BookDto;
-import com.example.publisher.mappers.BookMapper;
-import com.example.publisher.services.BookService;
+import com.example.publisher.dto.author.AuthorUpdateDto;
+import com.example.publisher.mappers.AuthorMapper;
+import com.example.publisher.services.AuthorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,79 +15,93 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Tag(name = "Author Controller")
 @CrossOrigin
 @RestController
-@RequestMapping("/books")
+@RequestMapping("/authors")
 @RequiredArgsConstructor
 public class AuthorController {
 
-    private final BookService bookService;
-    private final BookMapper bookMapper;
+    private final AuthorService authorService;
+    private final AuthorMapper authorMapper;
 
     @GetMapping
-    @Operation(summary = "Get all comments", responses = @ApiResponse(responseCode = "200",
+    @Operation(summary = "Get all ingredients", responses = @ApiResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = @ArraySchema(schema = @Schema(implementation = BookDto.class)))))
+                    array = @ArraySchema(schema = @Schema(implementation = AuthorDto.class)))))
     public ResponseEntity<List<AuthorDto>> findAll() {
-        return bookService.findAll().stream()
-                .map(bookMapper::toPayload)
+        return authorService.findAll().stream()
+                .map(authorMapper::toPayload)
                 .collect(Collectors.collectingAndThen(Collectors.toList(), ResponseEntity::ok));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get comment by id", responses = {
+    @Operation(summary = "Get ingredient by id", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = BookDto.class))),
+                            schema = @Schema(implementation = AuthorDto.class))),
             @ApiResponse(responseCode = "404", content = @Content)
     })
-    public ResponseEntity<BookDto> findById(@PathVariable Long id) {
-        return ResponseEntity.of(bookService.findById(id).map(bookMapper::toPayload));
+    public ResponseEntity<AuthorDto> findById(@PathVariable Long id) {
+        return ResponseEntity.of(authorService.findById(id).map(authorMapper::toPayload));
     }
 
-    @PatchMapping("/{id}")
-    @PreAuthorize("@bookChecker.isAuthor(#id, #principal.getName())")
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
-    @Operation(summary = "Update comment by id", responses = {
+    @Operation(summary = "Create new ingredient", responses = {
+            @ApiResponse(responseCode = "201",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuthorDto.class))),
+            @ApiResponse(responseCode = "400",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ExceptionResponse.class))),
+            @ApiResponse(responseCode = "403", content = @Content)
+    })
+    public ResponseEntity<AuthorDto> create(@RequestBody @Valid
+                                            AuthorCreationDto authorDto) {
+        var created = authorService.create(authorMapper.toEntity(authorDto));
+        return new ResponseEntity<>(authorMapper.toPayload(created), HttpStatus.CREATED);
+    }
+    @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "bearer_token")
+    @Operation(summary = "Update author by id", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = CommentDto.class))),
+                            schema = @Schema(implementation = AuthorDto.class))),
             @ApiResponse(responseCode = "400",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionResponse.class))),
             @ApiResponse(responseCode = "403", content = @Content),
             @ApiResponse(responseCode = "404", content = @Content)
     })
-    public ResponseEntity<CommentDto> update(@PathVariable Long id,
-                                             @RequestBody @Valid CommentUpdateDto commentDto,
-                                             Principal principal) {
-        return ResponseEntity.of(commentService.findById(id)
-                .map(menu -> commentMapper.partialUpdate(commentDto, menu))
-                .map(commentService::update)
-                .map(commentMapper::toPayload));
+    public ResponseEntity<AuthorDto> update(@RequestBody @Valid AuthorUpdateDto authorDto,
+                                                @PathVariable Long id) {
+        return ResponseEntity.of(authorService.findById(id)
+                .map(author -> authorMapper.partialUpdate(authorDto, author))
+                .map(authorService::update)
+                .map(authorMapper::toPayload));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@commentChecker.isCommentOrRecipeAuthor(#id, #principal.getName()) "
-            + "or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
-    @Operation(summary = "Delete comment by id", responses = {
+    @Operation(summary = "Delete author by id", responses = {
             @ApiResponse(responseCode = "204", content = @Content),
             @ApiResponse(responseCode = "403", content = @Content)
     })
-    public ResponseEntity<Void> deleteById(@PathVariable Long id,
-                                           Principal principal) {
-        commentService.deleteById(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        authorService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

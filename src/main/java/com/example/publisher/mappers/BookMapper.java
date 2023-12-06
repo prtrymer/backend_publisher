@@ -13,8 +13,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper
 public interface BookMapper {
     @Mapping(target = "createdById", source = "createdBy.id")
-    @Mapping(target = "authorName", source = "author.name")
-    @Mapping(target = "createdAt", expression = "java(book.getCreatedAt().getEpochSecond())")
     BookDto toPayload(Book book);
 
     Book toEntity(BookCreationDto bookDto);

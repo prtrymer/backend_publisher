@@ -41,9 +41,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book update(Book book, List<Long> authorIndices) {
-        book.rewriteAuthors(StreamEx.of(authorIndices))
+        book.rewriteAuthors(StreamEx.of(authorIndices)
                 .mapPartial(authorRepository::findById)
                 .toList());
+        return bookRepository.save(book);
     }
 
     @Override

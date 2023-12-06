@@ -13,7 +13,6 @@ public class AuthorCreationDto {
     private String name;
     private int age;
     private String description;
-    private String imageKey;
     @NotNull
     private List<Book> books;
 }

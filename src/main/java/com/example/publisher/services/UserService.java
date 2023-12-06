@@ -11,7 +11,7 @@ public interface UserService {
 
     UserEntity signUp(UserEntity user);
 
-    UserEntity update(UserEntity user);
+    UserEntity update(UserEntity user, String newPassword);
 
     List<UserEntity> findAll();
 

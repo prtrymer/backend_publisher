@@ -26,10 +26,6 @@ public class UserEntity {
     private String username;
     @Column(name = "name")
     private String name;
-    @Column(name = "surname")
-    private String surname;
-    @Column(name = "patronymic")
-    private String patronymic;
     @Column(name = "email")
     private String email;
     @Column(name = "phone")

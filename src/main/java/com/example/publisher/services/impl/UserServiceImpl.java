@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public UserEntity update(UserEntity user) {
+    public UserEntity update(UserEntity user, String newPassword) {
         if (isUsernameInUse(user)) {
             throw new UserAlreadyExistsException(
                     "Username %s is already in use".formatted(user.getUsername()));
