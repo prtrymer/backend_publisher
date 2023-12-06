@@ -1,9 +1,6 @@
 package com.example.publisher.dto.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -16,6 +13,7 @@ public class UserCreationDto {
     private String username;
 
     @NotBlank(message = "Specify name")
+    @NotNull
     private String name;
 
     @NotBlank(message = "Specify email")
@@ -26,7 +24,9 @@ public class UserCreationDto {
     @Size(min = 6, max = 32, message = "Enter at least 6 and less than 32 characters")
     private String password;
 
+    @NotNull
     private String phone;
 
+    @NotNull
     private Date birthdate;
 }
