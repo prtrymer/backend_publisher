@@ -89,15 +89,14 @@ public class BookController {
     public ResponseEntity<BookDto> create(@RequestBody @Valid BookCreationDto bookDto,
                                             Principal principal) {
         var created = bookService.create(bookMapper.toEntity(bookDto),
-                bookDto.getAuthorIndicies(), principal.getName());
+                bookDto.getAuthorIndicies());
         return new ResponseEntity<>(bookMapper.toPayload(created), HttpStatus.CREATED);
     }
 
 
     @PatchMapping("/{id}")
-    @PreAuthorize("@bookChecker.isAuthor(#id, #principal.getName())")
     @SecurityRequirement(name = "bearer_token")
-    @Operation(summary = "Update recipe by id", responses = {
+    @Operation(summary = "Update book by id", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = BookDto.class))),
@@ -116,7 +115,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@bookChecker.isAuthor(#id, #principal.getName()) or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
     @Operation(summary = "Delete recipe by id", responses = {
             @ApiResponse(responseCode = "204", content = @Content),

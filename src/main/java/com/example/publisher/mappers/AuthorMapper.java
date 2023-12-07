@@ -4,7 +4,11 @@ import com.example.publisher.dto.author.AuthorCreationDto;
 import com.example.publisher.dto.author.AuthorDto;
 import com.example.publisher.dto.author.AuthorUpdateDto;
 import com.example.publisher.models.Author;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
 
 @Mapper
 public interface AuthorMapper {

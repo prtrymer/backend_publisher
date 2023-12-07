@@ -1,5 +1,6 @@
 package com.example.publisher.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,11 +37,8 @@ public class Book {
     @Column(name = "capacity_sold")
     private int capacitySold;
 
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private UserEntity createdBy;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     @JoinTable(
             name = "books_authors",
             joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},

@@ -1,6 +1,5 @@
 package com.example.publisher.services.impl;
 
-import com.example.publisher.exception.UserNotFoundException;
 import com.example.publisher.models.Author;
 import com.example.publisher.models.Book;
 import com.example.publisher.repository.AuthorRepository;
@@ -29,10 +28,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book create(Book book, List<Long> authorIndices, String username) {
-        book.setCreatedBy(userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(
-                        "User with username %s not found".formatted(username))));
+    public Book create(Book book, List<Long> authorIndices) {
         StreamEx.of(authorIndices)
                 .mapPartial(authorRepository::findById)
                 .forEach(book::addAuthor);

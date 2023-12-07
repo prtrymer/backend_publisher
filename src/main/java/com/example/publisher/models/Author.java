@@ -21,7 +21,6 @@ public class Author {
     private String name;
     private int age;
     private String characteristic;
-    private String imageKey;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "author_books",
             joinColumns = @JoinColumn(name = "author_id"),

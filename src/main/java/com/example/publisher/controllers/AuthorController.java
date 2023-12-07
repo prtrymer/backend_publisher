@@ -35,7 +35,7 @@ public class AuthorController {
     private final AuthorMapper authorMapper;
 
     @GetMapping
-    @Operation(summary = "Get all ingredients", responses = @ApiResponse(responseCode = "200",
+    @Operation(summary = "Get all authors", responses = @ApiResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     array = @ArraySchema(schema = @Schema(implementation = AuthorDto.class)))))
     public ResponseEntity<List<AuthorDto>> findAll() {
@@ -58,7 +58,7 @@ public class AuthorController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
-    @Operation(summary = "Create new ingredient", responses = {
+    @Operation(summary = "Create new author", responses = {
             @ApiResponse(responseCode = "201",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = AuthorDto.class))),
