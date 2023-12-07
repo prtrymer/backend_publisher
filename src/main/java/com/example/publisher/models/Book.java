@@ -36,18 +36,22 @@ public class Book {
     private int capacity;
     @Column(name = "capacity_sold")
     private int capacitySold;
+    @ManyToOne
+    @JoinColumn(name = "createdBy")
+    private UserEntity createdBy;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+
     @JsonManagedReference
-    @JoinTable(
-            name = "books_authors",
-            joinColumns = {@JoinColumn(name = "book_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "id")}
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "books_authors",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    @Builder.Default
     private List<Author> authors = new ArrayList<>();
 
     public void addAuthor(Author author){
         this.authors.add(author);
+        author.getBooks().add(this);
     }
 
     public void rewriteAuthors(List<Author> authors){

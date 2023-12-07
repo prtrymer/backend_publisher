@@ -60,7 +60,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}/authors")
-    @Operation(summary = "Get menus of recipe", responses = {
+    @Operation(summary = "Get authors of books", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             array = @ArraySchema(schema = @Schema(implementation = AuthorDto.class)))),
@@ -75,6 +75,7 @@ public class BookController {
 
     @PostMapping
     @SecurityRequirement(name = "bearer_token")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create new book", responses = {
             @ApiResponse(responseCode = "201",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
@@ -89,12 +90,13 @@ public class BookController {
     public ResponseEntity<BookDto> create(@RequestBody @Valid BookCreationDto bookDto,
                                             Principal principal) {
         var created = bookService.create(bookMapper.toEntity(bookDto),
-                bookDto.getAuthorIndicies());
+                bookDto.getAuthorIndicies(), principal.getName());
         return new ResponseEntity<>(bookMapper.toPayload(created), HttpStatus.CREATED);
     }
 
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
     @Operation(summary = "Update book by id", responses = {
             @ApiResponse(responseCode = "200",

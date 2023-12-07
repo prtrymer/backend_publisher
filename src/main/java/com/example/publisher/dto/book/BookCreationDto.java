@@ -17,11 +17,12 @@ public class BookCreationDto {
     private int pages;
     @PositiveOrZero(message = "Price of book must not be negative")
     private float price;
+    @NotBlank(message = "Specify name")
+    private String genre;
     @PositiveOrZero(message = "Must not be negative")
     private int capacity;
     @PositiveOrZero(message = "Must not be negative")
     private int capacitySold;
 
-    @NotBlank
     private List<Long> authorIndicies;
 }

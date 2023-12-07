@@ -12,4 +12,5 @@ public class BookDto {
     private String genre;
     private int capacity;
     private int capacitySold;
+    private Long createdById;
 }

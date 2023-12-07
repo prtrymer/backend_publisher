@@ -21,10 +21,6 @@ public class Author {
     private String name;
     private int age;
     private String characteristic;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "author_books",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     private Set<Book> books = new HashSet<>();
-
 }
