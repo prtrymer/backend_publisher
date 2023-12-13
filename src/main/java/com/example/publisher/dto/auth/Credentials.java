@@ -15,6 +15,4 @@ public class Credentials {
     @NotBlank(message = "Specify password")
     @Size(min = 6, max = 32, message = "Enter at least 6 and less than 32 characters")
     private String password;
-
-    private boolean admin;
 }
