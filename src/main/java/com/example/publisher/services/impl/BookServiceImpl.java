@@ -29,7 +29,6 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public Book create(Book book, List<Long> authorIndices, String username) {
-
         StreamEx.of(authorIndices)
                 .mapPartial(authorRepository::findById)
                 .forEach(book::addAuthor);
