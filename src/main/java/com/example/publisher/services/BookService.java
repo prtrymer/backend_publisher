@@ -5,6 +5,7 @@ import com.example.publisher.models.Book;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,7 +15,7 @@ public interface BookService {
 
     Book update(Book book, List<Long> authorIndices);
 
-    List<Book> findAll();
+    List<Book> findAll(Pageable pageable);
 
     Optional<Book> findById(Long bookId);
 

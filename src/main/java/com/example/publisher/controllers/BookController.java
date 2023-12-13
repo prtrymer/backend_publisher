@@ -17,6 +17,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +44,16 @@ public class BookController {
     @Operation(summary = "Get all books", responses = @ApiResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     array = @ArraySchema(schema = @Schema(implementation = BookDto.class)))))
-    public ResponseEntity<List<BookDto>> findAll() {
-        return bookService.findAll().stream()
+    public ResponseEntity<List<BookDto>> findAll(@RequestParam(defaultValue = "1")int page,
+                                                 @RequestParam(defaultValue = "10")int pageSize
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+
+        List<BookDto> books = bookService.findAll(pageable).stream()
                 .map(bookMapper::toPayload)
-                .collect(Collectors.collectingAndThen(Collectors.toList(), ResponseEntity::ok));
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(books);
     }
 
     @GetMapping("/{id}")
