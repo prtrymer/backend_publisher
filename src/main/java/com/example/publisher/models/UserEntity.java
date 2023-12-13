@@ -47,9 +47,11 @@ public class UserEntity {
     private List<Role> roles = new ArrayList<>();
 
     public boolean isAdmin(){
-        return roles.stream()
-                .map(Role::getName)
-                .anyMatch(role -> role.equals("ROLE_ADMIN"));
+        if (roles.isEmpty()) {
+            return false;
+        }
+        String userRole = roles.get(0).getName();
+        return "ROLE_ADMIN".equals(userRole);
     }
     public void addRole(Role role) {
         this.roles.add(role);

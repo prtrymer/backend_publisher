@@ -1,6 +1,5 @@
 package com.example.publisher.dto.user;
 
-import com.example.publisher.models.Role;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -30,6 +29,4 @@ public class UserCreationDto {
 
     @NotNull
     private Date birthdate;
-
-    private Role role;
 }

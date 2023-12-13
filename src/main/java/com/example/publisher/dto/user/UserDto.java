@@ -13,4 +13,5 @@ public class UserDto {
     private String phone;
     private Date birthdate;
     private Long createdAt;
+    private boolean admin;
 }

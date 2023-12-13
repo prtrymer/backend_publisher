@@ -10,6 +10,7 @@ import org.mapstruct.*;
 @Mapper
 public interface UserMapper {
     @Mapping(target = "createdAt", expression = "java(user.getCreatedAt().getEpochSecond())")
+    @Mapping(target = "admin", expression = "java(user.isAdmin())")
     UserDto toPayload(UserEntity user);
 
     UserEntity toEntity(UserCreationDto userDto);
