@@ -36,9 +36,6 @@ public class Book {
     private int capacity;
     @Column(name = "capacity_sold")
     private int capacitySold;
-    @ManyToOne
-    @JoinColumn(name = "createdBy")
-    private UserEntity createdBy;
 
 
     @JsonManagedReference

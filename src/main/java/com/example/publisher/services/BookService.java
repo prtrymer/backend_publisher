@@ -19,7 +19,6 @@ public interface BookService {
 
     void deleteById(Long bookId);
 
-    void addAuthors(Long bookId, List<Long> authorIndices);
     Optional<Set<Author>> getAuthors(Long bookId);
 
 }

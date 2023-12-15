@@ -58,11 +58,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addAuthors(Long bookId, List<Long> authorIndices) {
-
-    }
-
-    @Override
     public Optional<Set<Author>> getAuthors(Long bookId) {
         return bookRepository.findById(bookId).map(Book::getAuthors).map(Set::copyOf);
     }
