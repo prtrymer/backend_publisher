@@ -8,11 +8,9 @@ import com.example.publisher.repository.UserRepository;
 import com.example.publisher.services.BookService;
 import lombok.RequiredArgsConstructor;
 import one.util.streamex.StreamEx;
-import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +53,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteById(Long commentId) {
-        bookRepository.deleteById(commentId);
+    public void deleteById(Long bookId) {
+        bookRepository.deleteById(bookId);
     }
 
     @Override
@@ -66,21 +64,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Set<Author>> getAuthors(Long bookId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public String addImage(Long bookId, MultipartFile file) {
-        return null;
-    }
-
-    @Override
-    public Resource getImage(Long recipeId) {
-        return null;
-    }
-
-    @Override
-    public void deleteImage(Long recipeId) {
-
+        return bookRepository.findById(bookId).map(Book::getAuthors).map(Set::copyOf);
     }
 }

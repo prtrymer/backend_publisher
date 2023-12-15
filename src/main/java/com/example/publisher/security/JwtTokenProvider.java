@@ -52,4 +52,5 @@ public class JwtTokenProvider {
                 .build()
                 .verify(token)
                 .getSubject();
-    }}
+    }
+}
