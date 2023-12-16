@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -53,4 +54,9 @@ public class AuthorServiceImpl implements AuthorService {
                         .forEach(book -> book.removeAuthor(author)));
         authorRepository.deleteById(authorId);
     }
+
+    @Override
+    public Optional<Set<Book>> getBooks(Long authorId) {
+        return authorRepository.findById(authorId).map(Author::getBooks).map(Set::copyOf);
     }
+}

@@ -4,7 +4,9 @@ import com.example.publisher.dto.ExceptionResponse;
 import com.example.publisher.dto.author.AuthorCreationDto;
 import com.example.publisher.dto.author.AuthorDto;
 import com.example.publisher.dto.author.AuthorUpdateDto;
+import com.example.publisher.dto.book.BookDto;
 import com.example.publisher.mappers.AuthorMapper;
+import com.example.publisher.mappers.BookMapper;
 import com.example.publisher.services.AuthorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -33,6 +35,7 @@ public class AuthorController {
 
     private final AuthorService authorService;
     private final AuthorMapper authorMapper;
+    private final BookMapper bookMapper;
 
     @GetMapping
     @Operation(summary = "Get all authors", responses = @ApiResponse(responseCode = "200",
@@ -92,7 +95,6 @@ public class AuthorController {
                 .map(author -> authorService.update(author, authorDto.getBookIndecies()))
                 .map(authorMapper::toPayload));
     }
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
@@ -103,5 +105,17 @@ public class AuthorController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         authorService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}/books")
+    @Operation(summary = "Get books of authors", responses = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = AuthorDto.class)))),
+            @ApiResponse(responseCode = "404", content = @Content)
+    })
+    public ResponseEntity<List<BookDto>> getBooks(@PathVariable Long id) {
+        return ResponseEntity.of(authorService.getBooks(id)
+                .map(authors -> authors.stream()
+                        .map(bookMapper::toPayload).toList()));
     }
 }
