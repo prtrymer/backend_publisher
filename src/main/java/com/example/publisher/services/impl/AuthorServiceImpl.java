@@ -1,9 +1,12 @@
 package com.example.publisher.services.impl;
 
 import com.example.publisher.models.Author;
+import com.example.publisher.models.Book;
 import com.example.publisher.repository.AuthorRepository;
+import com.example.publisher.repository.BookRepository;
 import com.example.publisher.services.AuthorService;
 import lombok.RequiredArgsConstructor;
+import one.util.streamex.StreamEx;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
 
+    private final BookRepository bookRepository;
+
 
     @Override
     public Author create(Author author) {
@@ -23,7 +28,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author update(Author author) {
+    public Author update(Author author, List<Long> bookIndices) {
+        author.rewriteBooks(StreamEx.of(bookIndices)
+                .mapPartial(bookRepository::findById)
+                .toList());
         return authorRepository.save(author);
     }
 

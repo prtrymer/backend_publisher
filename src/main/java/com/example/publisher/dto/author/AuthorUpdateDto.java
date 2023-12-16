@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class AuthorUpdateDto {
-    private String description;
+    private String characteristic;
     private List<Long> bookIndecies;
 }

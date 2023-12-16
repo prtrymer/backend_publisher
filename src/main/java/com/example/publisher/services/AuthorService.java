@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface AuthorService {
     Author create(Author author);
 
-    Author update(Author author);
+    Author update(Author author, List<Long> BookIndices);
 
     List<Author> findAll();
 
