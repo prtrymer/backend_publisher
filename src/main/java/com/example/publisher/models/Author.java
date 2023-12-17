@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -29,13 +28,4 @@ public class Author {
     @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     @JsonBackReference
     private Set<Book> books = new HashSet<>();
-    public void addBook(Book book) {
-        this.books.add(book);
-        book.getAuthors().add(this);
-    }
-    public void rewriteBooks(List<Book> books) {
-        this.books.forEach(book -> book.getAuthors().remove(this));
-        this.books.clear();
-        books.forEach(this::addBook);
-    }
 }

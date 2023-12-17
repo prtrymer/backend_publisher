@@ -29,14 +29,6 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author update(Author author, List<Long> bookIndices) {
-        author.rewriteBooks(StreamEx.of(bookIndices)
-                .mapPartial(bookRepository::findById)
-                .toList());
-        return authorRepository.save(author);
-    }
-
-    @Override
     public List<Author> findAll() {
         return authorRepository.findAll();
     }

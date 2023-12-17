@@ -3,7 +3,6 @@ package com.example.publisher.controllers;
 import com.example.publisher.dto.ExceptionResponse;
 import com.example.publisher.dto.author.AuthorCreationDto;
 import com.example.publisher.dto.author.AuthorDto;
-import com.example.publisher.dto.author.AuthorUpdateDto;
 import com.example.publisher.dto.book.BookDto;
 import com.example.publisher.mappers.AuthorMapper;
 import com.example.publisher.mappers.BookMapper;
@@ -74,26 +73,6 @@ public class AuthorController {
                                             AuthorCreationDto authorDto) {
         var created = authorService.create(authorMapper.toEntity(authorDto));
         return new ResponseEntity<>(authorMapper.toPayload(created), HttpStatus.CREATED);
-    }
-    @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @SecurityRequirement(name = "bearer_token")
-    @Operation(summary = "Update author by id", responses = {
-            @ApiResponse(responseCode = "200",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthorDto.class))),
-            @ApiResponse(responseCode = "400",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = ExceptionResponse.class))),
-            @ApiResponse(responseCode = "403", content = @Content),
-            @ApiResponse(responseCode = "404", content = @Content)
-    })
-    public ResponseEntity<AuthorDto> update(@RequestBody @Valid AuthorUpdateDto authorDto,
-                                                @PathVariable Long id) {
-        return ResponseEntity.of(authorService.findById(id)
-                .map(author -> authorMapper.partialUpdate(authorDto, author))
-                .map(author -> authorService.update(author, authorDto.getBookIndices()))
-                .map(authorMapper::toPayload));
     }
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
