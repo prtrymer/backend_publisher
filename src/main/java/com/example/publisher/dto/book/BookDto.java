@@ -2,6 +2,8 @@ package com.example.publisher.dto.book;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BookDto {
     private Long id;
@@ -12,4 +14,5 @@ public class BookDto {
     private String genre;
     private int capacity;
     private int capacitySold;
+    private List<Long> authorIndicies;
 }
