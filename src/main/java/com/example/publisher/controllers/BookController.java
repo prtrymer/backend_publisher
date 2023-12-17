@@ -117,7 +117,7 @@ public class BookController {
             @ApiResponse(responseCode = "404", content = @Content)
     })
     public ResponseEntity<BookDto> update(@RequestBody @Valid BookUpdateDto bookDto,
-                                            @PathVariable Long id, Principal principal) {
+                                            @PathVariable Long id) {
         return ResponseEntity.of(bookService.findById(id)
                 .map(book -> bookMapper.partialUpdate(bookDto, book))
                 .map(book -> bookService.update(book, bookDto.getAuthorIndices()))

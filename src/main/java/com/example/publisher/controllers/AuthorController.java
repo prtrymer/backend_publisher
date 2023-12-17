@@ -92,7 +92,7 @@ public class AuthorController {
                                                 @PathVariable Long id) {
         return ResponseEntity.of(authorService.findById(id)
                 .map(author -> authorMapper.partialUpdate(authorDto, author))
-                .map(author -> authorService.update(author, authorDto.getBookIndecies()))
+                .map(author -> authorService.update(author, authorDto.getBookIndices()))
                 .map(authorMapper::toPayload));
     }
     @DeleteMapping("/{id}")

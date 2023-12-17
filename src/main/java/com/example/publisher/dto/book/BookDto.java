@@ -14,5 +14,6 @@ public class BookDto {
     private String genre;
     private int capacity;
     private int capacitySold;
-    private List<Long> authorIndicies;
+    private List<Long> authorIndices;
+    private int totalCount;
 }

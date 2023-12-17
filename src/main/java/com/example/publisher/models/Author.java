@@ -1,5 +1,6 @@
 package com.example.publisher.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +20,14 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "age")
     private int age;
+    @Column(name = "characteristic")
     private String characteristic;
     @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<Book> books = new HashSet<>();
     public void addBook(Book book) {
         this.books.add(book);
