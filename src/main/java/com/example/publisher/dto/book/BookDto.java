@@ -15,5 +15,4 @@ public class BookDto {
     private int capacity;
     private int capacitySold;
     private List<Long> authorIndices;
-    private int totalCount;
 }

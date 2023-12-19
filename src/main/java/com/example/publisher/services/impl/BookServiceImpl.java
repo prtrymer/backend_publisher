@@ -4,7 +4,6 @@ import com.example.publisher.models.Author;
 import com.example.publisher.models.Book;
 import com.example.publisher.repository.AuthorRepository;
 import com.example.publisher.repository.BookRepository;
-import com.example.publisher.repository.UserRepository;
 import com.example.publisher.services.BookService;
 import lombok.RequiredArgsConstructor;
 import one.util.streamex.StreamEx;
@@ -20,8 +19,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
-
-    private final UserRepository userRepository;
 
     private final AuthorRepository authorRepository;
 

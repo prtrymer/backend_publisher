@@ -44,10 +44,16 @@ public class BookController {
     @Operation(summary = "Get all books", responses = @ApiResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     array = @ArraySchema(schema = @Schema(implementation = BookDto.class)))))
-    public ResponseEntity<List<BookDto>> findAll(@RequestParam(defaultValue = "1")int page,
-                                                 @RequestParam(defaultValue = "10")int pageSize
+    public ResponseEntity<List<BookDto>> findAll(@RequestParam(required = false) Integer page,
+                                                 @RequestParam(required = false) Integer pageSize
     ) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Pageable pageable;
+
+        if (page == null || pageSize == null) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(page - 1, pageSize);
+        }
 
         List<BookDto> books = bookService.findAll(pageable).stream()
                 .map(bookMapper::toPayload)
