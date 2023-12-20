@@ -29,8 +29,8 @@ import java.util.List;
 @RequestMapping("/faq")
 @RequiredArgsConstructor
 public class FaqController {
-    FaqMapper faqMapper;
-    FaqService faqService;
+    private final FaqMapper faqMapper;
+    private final FaqService faqService;
     @GetMapping
     @Operation(summary = "Get all faqs", responses = @ApiResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

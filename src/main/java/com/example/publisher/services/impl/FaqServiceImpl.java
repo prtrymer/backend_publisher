@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FaqServiceImpl implements FaqService {
-    FaqRepository faqRepository;
+    private final FaqRepository faqRepository;
 
     @Override
     public Faq create(Faq faq) {
