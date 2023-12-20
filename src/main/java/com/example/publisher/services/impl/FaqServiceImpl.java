@@ -20,6 +20,11 @@ public class FaqServiceImpl implements FaqService {
     }
 
     @Override
+    public Faq update(Faq faq) {
+        return faqRepository.save(faq);
+    }
+
+    @Override
     public List<Faq> findAll() {
         return faqRepository.findAll();
     }

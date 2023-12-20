@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface FaqService {
     Faq create(Faq faq);
+    Faq update (Faq faq);
     List<Faq> findAll();
     void deleteById(Long faqId);
     Optional<Faq> findById(Long faqId);

@@ -82,7 +82,8 @@ public class FaqController {
     public ResponseEntity<FaqDto> update(@RequestBody @Valid FaqUpdateDto faqDto,
                                           @PathVariable Long id) {
         return ResponseEntity.of(faqService.findById(id)
-                .map(book -> faqMapper.partialUpdate(faqDto, book))
+                .map(faq -> faqMapper.partialUpdate(faqDto, faq))
+                .map(faqService::update)
                 .map(faqMapper::toPayload));
     }
 
