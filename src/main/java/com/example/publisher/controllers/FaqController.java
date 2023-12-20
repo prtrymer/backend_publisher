@@ -1,6 +1,7 @@
 package com.example.publisher.controllers;
 
 import com.example.publisher.dto.ExceptionResponse;
+import com.example.publisher.dto.book.BookDto;
 import com.example.publisher.dto.faq.FaqCreationDto;
 import com.example.publisher.dto.faq.FaqDto;
 import com.example.publisher.dto.faq.FaqUpdateDto;
@@ -63,6 +64,17 @@ public class FaqController {
     ) {
         var created = faqService.create(faqMapper.toEntity(faqDto));
         return new ResponseEntity<>(faqMapper.toPayload(created), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get faq by id", responses = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = BookDto.class))),
+            @ApiResponse(responseCode = "404", content = @Content)
+    })
+    public ResponseEntity<FaqDto> findById(@PathVariable Long id) {
+        return ResponseEntity.of(faqService.findById(id).map(faqMapper::toPayload));
     }
 
 
