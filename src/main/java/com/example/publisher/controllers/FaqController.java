@@ -1,7 +1,6 @@
 package com.example.publisher.controllers;
 
 import com.example.publisher.dto.ExceptionResponse;
-import com.example.publisher.dto.book.BookDto;
 import com.example.publisher.dto.faq.FaqCreationDto;
 import com.example.publisher.dto.faq.FaqDto;
 import com.example.publisher.dto.faq.FaqUpdateDto;
@@ -35,7 +34,7 @@ public class FaqController {
     @GetMapping
     @Operation(summary = "Get all faqs", responses = @ApiResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    array = @ArraySchema(schema = @Schema(implementation = BookDto.class)))))
+                    array = @ArraySchema(schema = @Schema(implementation = FaqDto.class)))))
     public ResponseEntity<List<FaqDto>> findAll(
     ) {
 
@@ -52,7 +51,7 @@ public class FaqController {
     @Operation(summary = "Create new faq", responses = {
             @ApiResponse(responseCode = "201",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = BookDto.class))),
+                            schema = @Schema(implementation = FaqDto.class))),
             @ApiResponse(responseCode = "400",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionResponse.class))),
@@ -73,7 +72,7 @@ public class FaqController {
     @Operation(summary = "Update faq by id", responses = {
             @ApiResponse(responseCode = "200",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = BookDto.class))),
+                            schema = @Schema(implementation = FaqDto.class))),
             @ApiResponse(responseCode = "400",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionResponse.class))),
