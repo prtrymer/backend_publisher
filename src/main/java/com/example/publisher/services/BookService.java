@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface BookService {
-    Book create(Book book, List<Long> authorIndices, String username);
+    Book create(Book book, List<Long> authorIndices);
 
     Book update(Book book, List<Long> authorIndices);
 

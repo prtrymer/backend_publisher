@@ -101,10 +101,10 @@ public class BookController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ExceptionResponse.class)))
     })
-    public ResponseEntity<BookDto> create(@RequestBody @Valid BookCreationDto bookDto,
-                                            Principal principal) {
+    public ResponseEntity<BookDto> create(@RequestBody @Valid BookCreationDto bookDto
+                                            ) {
         var created = bookService.create(bookMapper.toEntity(bookDto),
-                bookDto.getAuthorIndicies(), principal.getName());
+                bookDto.getAuthorIndicies());
         return new ResponseEntity<>(bookMapper.toPayload(created), HttpStatus.CREATED);
     }
 
@@ -133,7 +133,7 @@ public class BookController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "bearer_token")
-    @Operation(summary = "Delete recipe by id", responses = {
+    @Operation(summary = "Delete book by id", responses = {
             @ApiResponse(responseCode = "204", content = @Content),
             @ApiResponse(responseCode = "403", content = @Content)
     })
